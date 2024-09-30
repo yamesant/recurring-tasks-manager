@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:RTM.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="RTM.UI.Views.AddTaskView"
+             x:DataType="viewModels:AddTaskViewModel">
+    <StackPanel HorizontalAlignment="Left">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button Command="{Binding AddCommand}">
+                Add
+            </Button>
+        </StackPanel>
+        <TextBlock Text="Task Name:" Margin="10" />
+        <TextBox Width="200" Text="{Binding Name}" />
+        <TextBlock Text="Days Between Completions Target:" Margin="10" />
+        <TextBox Width="200" Text="{Binding IntervalTarget}" />
+    </StackPanel>
+</UserControl>
