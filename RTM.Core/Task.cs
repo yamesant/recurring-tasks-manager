@@ -22,6 +22,16 @@ public class Task
         LastCompletionDate = null;
         IntervalTarget = intervalTarget;
     }
+    public Task(string name, int completionCount, DateTime taskCreationDate,
+        DateTime? lastCompletionDate, int intervalTarget)
+    {
+        Id = Guid.NewGuid();
+        Name = name;
+        CompletionCount = completionCount;
+        TaskCreationDate = taskCreationDate;
+        LastCompletionDate = lastCompletionDate;
+        IntervalTarget = intervalTarget;
+    }
     public int DaysSinceCreation => (DateTime.UtcNow - TaskCreationDate).Days;
     public int DaysSinceLastCompletion => LastCompletionDate is null ? DaysSinceCreation : (DateTime.UtcNow - LastCompletionDate.Value).Days;
     public int LowerTarget => Math.Max(1, (int)(IntervalTarget * 0.9));

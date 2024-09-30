@@ -7,14 +7,29 @@
         x:Class="RTM.UI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="RTM.UI">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+        Width="800" Height="600"
+        Title="Recurring Tasks Manager">
+        
+        <Panel>
+                <ExperimentalAcrylicBorder IsHitTestVisible="False">
+                        <ExperimentalAcrylicBorder.Material>
+                                <ExperimentalAcrylicMaterial
+                                        BackgroundSource="Digger"
+                                        TintColor="Black"
+                                        TintOpacity="1"
+                                        MaterialOpacity="0.65" />
+                        </ExperimentalAcrylicBorder.Material>
+                </ExperimentalAcrylicBorder>
+                
+                <Panel Margin="40 40 40 0">
+                        <ListBox ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
+                                 Background="Transparent">
+                                <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                        </ListBox>
+                </Panel>
+        </Panel>
 </Window>
