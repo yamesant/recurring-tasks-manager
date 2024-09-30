@@ -48,7 +48,27 @@ public class MainWindowViewModel : ViewModelBase
 
         foreach (Task task in tasks)
         {
-            Tasks.Add(new TaskViewModel(task));
+            AddTask(new TaskViewModel(task));
         }
+    }
+    
+    private void AddTask(TaskViewModel task)
+    {
+        for (int i = 0; i < Tasks.Count; i++)
+        {
+            if (task.SchedulingStatus > Tasks[i].SchedulingStatus)
+            {
+                Tasks.Insert(i, task);
+                return;
+            }
+
+            if (task.SchedulingStatus == Tasks[i].SchedulingStatus && task.DaysToTarget <= Tasks[i].DaysToTarget)
+            {
+                Tasks.Insert(i, task);
+                return;
+            }
+        }
+
+        Tasks.Add(task);
     }
 }
