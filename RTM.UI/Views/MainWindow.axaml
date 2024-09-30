@@ -22,8 +22,14 @@
                 </ExperimentalAcrylicBorder>
                 
                 <Panel Margin="40 40 40 0">
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                                <Button Command="{Binding CompleteTaskCommand}">
+                                        Complete Selected Task
+                                </Button>
+                        </StackPanel>
+                        
                         <ListBox ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
-                                 Background="Transparent">
+                                 Background="Transparent" Margin="0 40 0 0">
                                 <ListBox.ItemsPanel>
                                         <ItemsPanelTemplate>
                                                 <WrapPanel />

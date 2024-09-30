@@ -15,4 +15,8 @@ public class TaskViewModel(Task task) : ViewModelBase
     public string ReadyInfo => $"Days until ready: {Math.Max(0, task.LowerTarget - task.DaysSinceLastCompletion)}";
     public string OverdueInfo => $"Days until overdue: {Math.Max(0, task.UpperTarget - task.DaysSinceLastCompletion)}";
     public int DaysToTarget => task.IntervalTarget - task.DaysSinceLastCompletion;
+    public Task GetTask()
+    {
+        return task;
+    }
 }
