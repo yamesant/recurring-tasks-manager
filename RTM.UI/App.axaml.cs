@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using RTM.UI.Data;
 using RTM.UI.ViewModels;
 using RTM.UI.Views;
 
@@ -22,6 +23,10 @@ public partial class App : Application
                 DataContext = new MainWindowViewModel(),
             };
         }
+
+        TaskContext context = new();
+        context.Database.EnsureCreated();
+        DbInitializer.Initialize(context);
 
         base.OnFrameworkInitializationCompleted();
     }
