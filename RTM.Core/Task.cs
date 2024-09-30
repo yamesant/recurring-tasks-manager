@@ -23,6 +23,26 @@ public class Task
         IntervalTarget = intervalTarget;
     }
     public int DaysSinceCreation => (DateTime.UtcNow - TaskCreationDate).Days;
+    public int DaysSinceLastCompletion => LastCompletionDate is null ? DaysSinceCreation : (DateTime.UtcNow - LastCompletionDate.Value).Days;
+    public int LowerTarget => Math.Max(1, (int)(IntervalTarget * 0.9));
+    public int UpperTarget => Math.Max(LowerTarget + 1, (int)(IntervalTarget * 1.1));
+    public TaskSchedulingStatus SchedulingStatus
+    {
+        get
+        {
+            if (UpperTarget <= DaysSinceLastCompletion)
+            {
+                return TaskSchedulingStatus.Overdue;
+            }
+
+            if (LowerTarget <= DaysSinceLastCompletion)
+            {
+                return TaskSchedulingStatus.Ready;
+            }
+
+            return TaskSchedulingStatus.Scheduled;
+        }
+    }
     public void Complete()
     {
         CompletionCount++;
