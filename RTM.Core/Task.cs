@@ -22,4 +22,11 @@ public class Task
         LastCompletionDate = null;
         IntervalTarget = intervalTarget;
     }
+    public int DaysSinceCreation => (DateTime.UtcNow - TaskCreationDate).Days;
+    public void Complete()
+    {
+        CompletionCount++;
+        IntervalTarget = (int)(((double)DaysSinceCreation + IntervalTarget) / (CompletionCount+1) + 0.5);
+        LastCompletionDate = DateTime.Now;
+    }
 }
