@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using ReactiveUI;
 using RTM.Core;
@@ -18,6 +19,8 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _selectedTask, value);
     }
     public ICommand CompleteTaskCommand { get; }
+    public ICommand AddTaskCommand { get; }
+    public Interaction<AddTaskViewModel, TaskViewModel?> ShowAddTask { get; } = new();
     public MainWindowViewModel()
     {
         CompleteTaskCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -33,6 +36,16 @@ public class MainWindowViewModel : ViewModelBase
             Tasks.RemoveAt(index);
             task.Complete();
             AddTask(new TaskViewModel(task));
+        });
+        AddTaskCommand = ReactiveCommand.CreateFromTask(async () =>
+        {
+            AddTaskViewModel addTaskViewModel = new();
+            TaskViewModel? result = await ShowAddTask.Handle(addTaskViewModel);
+            if (result is null)
+            {
+                return;
+            }
+            AddTask(result);
         });
         RxApp.MainThreadScheduler.Schedule(LoadItems);
     }

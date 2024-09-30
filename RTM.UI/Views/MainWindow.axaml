@@ -23,6 +23,10 @@
                 
                 <Panel Margin="40 40 40 0">
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                                <Button Command="{Binding AddTaskCommand}">
+                                        Add Task
+                                </Button>
+                                
                                 <Button Command="{Binding CompleteTaskCommand}">
                                         Complete Selected Task
                                 </Button>
