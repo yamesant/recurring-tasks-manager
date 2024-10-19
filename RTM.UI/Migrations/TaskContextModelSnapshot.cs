@@ -29,14 +29,14 @@ namespace RTM.UI.Migrations
                     b.Property<int>("IntervalTarget")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime?>("LastCompletionDate")
+                    b.Property<DateOnly?>("LastCompletionDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("TaskCreationDate")
+                    b.Property<DateOnly>("TaskCreationDate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
