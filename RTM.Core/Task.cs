@@ -2,6 +2,7 @@
 
 public class Task
 {
+    public static TimeProvider TimeProvider { get; set; } = TimeProvider.System;
     public Guid Id { get; protected set; }
     public string Name { get; protected set; }
     public int CompletionCount { get; protected set; }
@@ -18,7 +19,7 @@ public class Task
         Id = Guid.NewGuid();
         Name = name;
         CompletionCount = 0;
-        TaskCreationDate = DateTime.UtcNow;
+        TaskCreationDate = TimeProvider.GetLocalNow().Date;
         LastCompletionDate = null;
         IntervalTarget = intervalTarget;
     }
@@ -32,8 +33,8 @@ public class Task
         LastCompletionDate = lastCompletionDate;
         IntervalTarget = intervalTarget;
     }
-    public int DaysSinceCreation => (DateTime.UtcNow - TaskCreationDate).Days;
-    public int DaysSinceLastCompletion => LastCompletionDate is null ? DaysSinceCreation : (DateTime.UtcNow - LastCompletionDate.Value).Days;
+    public int DaysSinceCreation => (TimeProvider.GetLocalNow().Date - TaskCreationDate).Days;
+    public int DaysSinceLastCompletion => LastCompletionDate is null ? DaysSinceCreation : (TimeProvider.GetLocalNow().Date - LastCompletionDate.Value).Days;
     public int LowerTarget => Math.Max(1, (int)(IntervalTarget * 0.9));
     public int UpperTarget => Math.Max(LowerTarget + 1, (int)(IntervalTarget * 1.1));
     public TaskSchedulingStatus SchedulingStatus
@@ -57,6 +58,6 @@ public class Task
     {
         CompletionCount++;
         IntervalTarget = (int)(((double)DaysSinceCreation + IntervalTarget) / (CompletionCount+1) + 0.5);
-        LastCompletionDate = DateTime.Now;
+        LastCompletionDate = TimeProvider.GetLocalNow().Date;
     }
 }
