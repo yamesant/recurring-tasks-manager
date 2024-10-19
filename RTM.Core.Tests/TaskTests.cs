@@ -19,7 +19,7 @@ public class TaskTests
     public void WhenTimePasses_CreationDateDoesNotChange(int[] daysBetweenCompletions, string taskName, int intervalTarget)
     {
         // Arrange
-        DateTime creationDate = _timeProvider.GetUtcNow().Date;
+        DateOnly creationDate = DateOnly.FromDateTime(_timeProvider.GetUtcNow().Date);
         Task task = new(taskName, intervalTarget);
         foreach (int daysPassed in daysBetweenCompletions)
         {
@@ -28,7 +28,7 @@ public class TaskTests
         }
         
         // Act
-        DateTime actual = task.TaskCreationDate;
+        DateOnly actual = task.TaskCreationDate;
         
         // Assert
         actual.Should().Be(creationDate);
