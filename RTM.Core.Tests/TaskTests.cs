@@ -221,4 +221,28 @@ public class TaskTests
         // Assert
         actual.Should().Be(intervalTarget);
     }
+    
+    [Test]
+    [InlineAutoData(new[] { 8, 6 }, 7, 5, TaskSchedulingStatus.Scheduled)]
+    [InlineAutoData(new[] { 8, 6 }, 7, 6, TaskSchedulingStatus.Ready)]
+    [InlineAutoData(new[] { 8, 6 }, 7, 7, TaskSchedulingStatus.Overdue)]
+    public void TaskSchedulingStatusIsCorrect(int[] daysBetweenCompletions, int intervalTarget, int daysSinceLastCompletion,
+        TaskSchedulingStatus expectedStatus, string taskName)
+    {
+        // Arrange
+        Task task = new(taskName, intervalTarget);
+        foreach (int daysPassed in daysBetweenCompletions)
+        {
+            _timeProvider.Advance(TimeSpan.FromDays(daysPassed));
+            task.Complete();
+        }
+
+        _timeProvider.Advance(TimeSpan.FromDays(daysSinceLastCompletion));
+
+        // Act
+        TaskSchedulingStatus actual = task.SchedulingStatus;
+
+        // Assert
+        actual.Should().Be(expectedStatus);
+    }
 }

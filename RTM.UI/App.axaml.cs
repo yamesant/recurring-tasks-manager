@@ -16,6 +16,10 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        TaskContext context = new();
+        context.Database.EnsureCreated();
+        DbInitializer.Initialize(context);
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
@@ -23,10 +27,6 @@ public partial class App : Application
                 DataContext = new MainWindowViewModel(),
             };
         }
-
-        TaskContext context = new();
-        context.Database.EnsureCreated();
-        DbInitializer.Initialize(context);
 
         base.OnFrameworkInitializationCompleted();
     }
