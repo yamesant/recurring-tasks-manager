@@ -19,7 +19,7 @@ public class Task
         Id = Guid.NewGuid();
         Name = name;
         CompletionCount = 0;
-        TaskCreationDate = DateOnly.FromDateTime(TimeProvider.GetUtcNow().Date);
+        TaskCreationDate = DateOnly.FromDateTime(TimeProvider.GetLocalNow().Date);
         LastCompletionDate = null;
         IntervalTarget = intervalTarget;
     }
@@ -34,11 +34,11 @@ public class Task
         IntervalTarget = intervalTarget;
     }
     public int DaysSinceCreation =>
-        DateOnly.FromDateTime(TimeProvider.GetUtcNow().Date).DayNumber - TaskCreationDate.DayNumber;
+        DateOnly.FromDateTime(TimeProvider.GetLocalNow().Date).DayNumber - TaskCreationDate.DayNumber;
 
     public int DaysSinceLastCompletion => LastCompletionDate is null
         ? DaysSinceCreation
-        : DateOnly.FromDateTime(TimeProvider.GetUtcNow().Date).DayNumber - LastCompletionDate.Value.DayNumber;
+        : DateOnly.FromDateTime(TimeProvider.GetLocalNow().Date).DayNumber - LastCompletionDate.Value.DayNumber;
     public int LowerTarget => Math.Max(1, (int)(IntervalTarget * 0.9));
     public int UpperTarget => Math.Max(LowerTarget + 1, (int)(IntervalTarget * 1.1));
     public TaskSchedulingStatus SchedulingStatus
